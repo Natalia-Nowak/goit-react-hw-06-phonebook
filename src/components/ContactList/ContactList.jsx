@@ -1,14 +1,18 @@
 import React from 'react';
 import './ContactList.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/reducers/contactsSlice';
 
 export default function ContactList() {
   const contactList = useSelector(state => state.contacts);
-  console.log(contactList);
-  const handleDelete = e => {
-    e.preventDefault();
+  const filter = useSelector(state => state.filter);
+
+  const dispatch = useDispatch();
+
+  const handleDelete = id => {
+    dispatch(deleteContact(id));
   };
-  const filter = '';
+
   return (
     <ul className="contact-list">
       {contactList
@@ -20,7 +24,7 @@ export default function ContactList() {
             {contact.name}: {contact.number}
             <button
               className="button-list"
-              onClick={() => handleDelete(contact.name)}
+              onClick={() => handleDelete(contact.id)}
             >
               Delete
             </button>
